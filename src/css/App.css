@@ -1,0 +1,78 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  font-size: calc(8px + 2vmin);
+  color: white;
+}
+.panel{
+  border-radius: 5px;
+  background-color: #373d47;
+  padding: 10px;
+  margin-bottom: 7px;
+}
+
+.Logo{
+  background-color: #282c34;
+}
+.Logo .LogoSvg{
+  height: 70px;
+  margin: 5px;
+}
+@media(max-width: 500px){
+  .Logo h4{
+    display: none;
+  }
+  .panel{
+  overflow-x: scroll;
+  }
+}
+
+.Footer{
+  background-color: rgba(139, 0, 0, 0.062);
+}
+
+.Footer p{
+  margin: 0;
+  font-size: 2vmin;
+}
+
+.Sum{
+}
+
+.WatherSum{
+  background-color: #2f3446;
+}
+
+.FoodSum{
+  background-color: #46342f;
+}
+
+.FoodTable{
+  background-color: #46342f;
+}
+
+.WatherTable{
+  
+  background-color: #2f3446;
+}
+
+.Edit{
+}
+
+Table{
+  font-size: calc(5px + 2vmin);
+}
+
+.article{
+}
+
+Input{
+  margin-bottom: 5px;
+}
+Select{
+  margin-bottom: 5px;
+}
+
