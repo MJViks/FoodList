@@ -8,7 +8,7 @@ export default class Edit extends Component {
                 <div className="panel">
                 <Label >Добавить</Label>
                 <Input placeholder="Название" id="Name"/>
-                <Input placeholder="$" type="number" id="Price"/>
+                <Input placeholder="₽" type="number" id="Price"/>
                     <Input type="select" id="Type">
                         <option>Еда</option>
                         <option>Вода</option>

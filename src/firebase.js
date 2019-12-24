@@ -2,14 +2,13 @@
 import "firebase/database"
 
 const config = {
-    apiKey: "AIzaSyDecfjkte78sM7DsyKEqZHJ_jif6AoHnlU",
-    authDomain: "carfoodsite.firebaseapp.com",
-    databaseURL: "https://carfoodsite.firebaseio.com",
-    projectId: "carfoodsite",
-    storageBucket: "carfoodsite.appspot.com",
-    messagingSenderId: "619940298294",
-    appId: "1:619940298294:web:f72f99345f22024e4d2297",
-    measurementId: "G-94JTTJLEFH"
+  apiKey: "AIzaSyCWk6xUnbrPmpJ3SGI93gi6S1VLmjlndZQ",
+  authDomain: "foodlist-feda3.firebaseapp.com",
+  databaseURL: "https://foodlist-feda3.firebaseio.com",
+  projectId: "foodlist-feda3",
+  storageBucket: "foodlist-feda3.appspot.com",
+  messagingSenderId: "620813262067",
+  appId: "1:620813262067:web:09d8636eab2d6c3de86b86"
 }
 
 class Firebase {
@@ -17,18 +16,32 @@ class Firebase {
         firebase.initializeApp(config);
         this.db = firebase.database();
     }
-    readDb() {
-        return this.db.ref('feedback').once('value')
-            .then(snapshot => { return JSON.stringify(snapshot.val()) })
-            .then((val) => this.feedbackCallback(val));
 
+    async readFoodDb() {
+        return await this.db.ref('food').once('value')
+            .then(snapshot =>  snapshot.val())
     }
 
-    async writeDb(text, select) {
-        return await this.db.ref('feedback/' + this.getCurrentUsername()).set({
-            email: this.auth.currentUser.email,
-            text: text,
-            select: select
+    async chFoodDb(name, ch, count, price, id) {
+        return await this.db.ref('food/' + id).set({
+            Name: name,
+            Ch: ch,
+            Count: count,
+            Price: price
+        });
+    }
+
+    async readWatherDb() {
+        return await this.db.ref('wather').once('value')
+            .then(snapshot =>  snapshot.val())
+    }
+
+    async chWatherDb(name, ch, count, price, id) {
+        return await this.db.ref('wather/' + id).set({
+            Name: name,
+            Ch: ch,
+            Count: count,
+            Price: price
         });
     }
 }
