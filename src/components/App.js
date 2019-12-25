@@ -10,6 +10,18 @@ import FoodSum from './sum/FoodSum'
 import WaterSum from './sum/WaterSum'
 
 export default class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      update: true
+    };
+  }
+
+  updateCallback() {
+    this.setState({update: true})
+  }
+
   render() {
     return (
       <div className="App App-header">
@@ -18,17 +30,17 @@ export default class App extends Component {
           <div className="container-fluid">
             <div className="row">
               <div className="col-xl-3 order-xl-6 right">
-                <WaterSum />
-                <FoodSum />
-                <Sum />
+                <WaterSum update={this.state.update}/>
+                <FoodSum update={this.state.update}/>
+                <Sum updateCallback={() => this.updateCallback()} update={this.state.update}/>
               </div>
               <div className="col-xl-6 order-xl-5 article ">
                 <div className="panel">
-                  <WatherTable />
-                  <FoodTable />
+                  <WatherTable updateCallback={() => this.updateCallback()} update={this.state.update}/>
+                  <FoodTable updateCallback={() => this.updateCallback()} update={this.state.update}/>
                 </div>
               </div>
-              <Edit />
+              <Edit updateCallback={() => this.updateCallback()}/>
             </div>
           </div>
         </main>

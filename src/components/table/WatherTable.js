@@ -13,37 +13,54 @@ export default class WatherTable extends Component {
       name: [],
       count: [],
       ch: [],
+      update: this.props.update,
     };
 
-    firebase.readWatherDb().then((val) => {
-      let id = []
-      let price = []
-      let name = []
-      let count = []
-      let ch = []
-      for (let wathers in val) {
-        id.unshift(wathers)
-        name.unshift(val[wathers]['Name'])
-        price.unshift(val[wathers]['Price'])
-        ch.unshift(val[wathers]['Ch'])
-        count.unshift(val[wathers]['Count'])
-      }
-      this.setState({
-        id: id,
-        price: price,
-        ch: ch,
-        name: name,
-        count: count,
-      })
+    this.setTable()
+  }
+  
+setTable(){
+  firebase.readWatherDb().then((val) => {
+    let id = []
+    let price = []
+    let name = []
+    let count = []
+    let ch = []
+    for (let wathers in val) {
+      id.push(wathers)
+      name.push(val[wathers]['Name'])
+      price.push(val[wathers]['Price'])
+      ch.push(val[wathers]['Ch'])
+      count.push(val[wathers]['Count'])
+    }
+    this.setState({
+      id: id,
+      price: price,
+      ch: ch,
+      name: name,
+      count: count,
+      update: this.props.update,
     })
+  })
+}
+
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps)
+      this.setTable()
   }
 
-  deleteWather(name) {
-    console.log(name)
+  deleteWather(id) {
+    firebase.writeWatherDb(
+      null,
+      null,
+      null,
+      null,
+      id
+    ).then(() => this.props.updateCallback())
   }
 
   chWather(i){
-    firebase.chWatherDb(
+    firebase.writeWatherDb(
       this.state.name[i], 
       !this.state.ch[i], 
       this.state.count[i], 
@@ -75,9 +92,9 @@ export default class WatherTable extends Component {
               <th scope="row">{i + 1}</th>
               <td><CustomInput type="switch" checked={this.state.ch[i]} onClick={() => this.chWather(i)} id={'chWather' + (i + 1)} /></td>
               <td>{name}</td>
-              <td>{this.state.count[i]}</td>
-              <td>{this.state.price[i]}</td>
-              <td><Button color="danger" onClick={() => this.deleteWather(name)}>X</Button></td>
+              <td>{this.state.count[i]} шт</td>
+              <td>{this.state.price[i]} ₽</td>
+              <td><Button color="danger" onClick={() => this.deleteWather(this.state.id[i])}>X</Button></td>
             </tr>
           )}
         </tbody>

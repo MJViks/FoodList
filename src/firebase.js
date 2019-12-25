@@ -22,13 +22,22 @@ class Firebase {
             .then(snapshot =>  snapshot.val())
     }
 
-    async chFoodDb(name, ch, count, price, id) {
+    async writeFoodDb(name, ch, count, price, id) {
         return await this.db.ref('food/' + id).set({
             Name: name,
             Ch: ch,
             Count: count,
             Price: price
-        });
+        },
+        (err) => { 
+            if (err) {
+                console.log("Write error: " + err)
+                this.status = 'Err'
+            }
+            else
+                this.status = 'Ok'
+            } 
+        );
     }
 
     async readWatherDb() {
@@ -36,13 +45,21 @@ class Firebase {
             .then(snapshot =>  snapshot.val())
     }
 
-    async chWatherDb(name, ch, count, price, id) {
+    async writeWatherDb(name, ch, count, price, id) {
         return await this.db.ref('wather/' + id).set({
             Name: name,
             Ch: ch,
             Count: count,
             Price: price
-        });
+        }, (err) => { 
+            if (err) {
+                console.log("Write error: " + err)
+                this.status = 'Err'
+            }
+            else
+                this.status = 'Ok'
+            } 
+        );
     }
 }
 
