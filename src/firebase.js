@@ -19,7 +19,8 @@ class Firebase {
 
     async readFoodDb() {
         return await this.db.ref('food').once('value')
-            .then(snapshot =>  snapshot.val())
+            .then(snapshot =>  snapshot.val()).catch(()=> alert(123))
+           
     }
 
     async writeFoodDb(name, ch, count, price, id) {
@@ -59,7 +60,7 @@ class Firebase {
             else
                 this.status = 'Ok'
             } 
-        );
+        )
     }
 }
 

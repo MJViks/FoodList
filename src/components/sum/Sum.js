@@ -8,10 +8,12 @@ export default class Sum extends Component {
         this.state = {
             sum: -1,
             bigSum: 0,
+            sumFood: 0,
+            sumWather: 0,
         };
         this.getNumbers()
     }
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if (this.props !== prevProps) {
             this.getNumbers()
         }
@@ -22,13 +24,24 @@ export default class Sum extends Component {
         this.getNumbersWather()
     }
 
+    setSum(sum, is) {
+        if (is === "wather")
+        this.setState({ sumWather: sum })
+        else
+        this.setState({ sumFood: sum })
+        let summ = this.state.sumFood + this.state.sumWather
+        this.setState({ sum: summ, bigSum: summ })
+        
+    }
+
     getNumbersFood() {
         firebase.readFoodDb().then((val) => {
             let sum = 0
             for (let foods in val) {
                 sum += val[foods]['Price'] * val[foods]['Count']
             }
-            this.setState({ sum: this.state.sum + sum, bigSum: this.state.sum + sum })
+this.setSum(sum, "food")
+
         })
     }
 
@@ -38,7 +51,7 @@ export default class Sum extends Component {
             for (let waters in val) {
                 sum += val[waters]['Price'] * val[waters]['Count']
             }
-            this.setState({ sum: this.state.sum + sum, bigSum: this.state.sum + sum })
+            this.setSum(sum, "wather")
         })
     }
 
@@ -50,23 +63,24 @@ export default class Sum extends Component {
                 this.setState({ sum: sum })
                 break
             case 'С 9 человек':
-                sum = this.state.sum / 9
+                this.setState({ sum: sum })
+                sum = this.state.bigSum / 9
                 this.setState({ sum: sum })
                 break
             case 'С 8 человек':
-                sum = this.state.sum / 8
+                sum = this.state.bigSum / 8
                 this.setState({ sum: sum })
                 break
             case 'С 7 человек':
-                sum = this.state.sum / 7
+                sum = this.state.bigSum / 7
                 this.setState({ sum: sum })
                 break
             case 'С 6 человек':
-                sum = this.state.sum / 6
+                sum = this.state.bigSum / 6
                 this.setState({ sum: sum })
                 break
             default:
-                alert("Ошибка №2 \r\n Обратитесь к администратору")    
+                alert("Ошибка №2 \r\n Обратитесь к администратору")
         }
     }
 
@@ -80,19 +94,19 @@ export default class Sum extends Component {
                     this.state.sum === -1 ?
                         <Spinner color="info" style={{ width: '3rem', height: '3rem', margin: '15px' }} /> :
                         <div>
-                        <Input type="select" id="Count" onChange={e => this.onChangeSelect(e)}>
-                            <option>Всего</option>
-                            <option>С 9 человек</option>
-                            <option>С 8 человек</option>
-                            <option>С 7 человек</option>
-                            <option>С 6 человек</option>
-                        </Input>
-                        <p>
-                            <Label id="lblFoodSum"><h2>{this.state.sum.toFixed(2)} ₽</h2></Label>
+                            <Input type="select" id="Count" onChange={e => this.onChangeSelect(e)}>
+                                <option>Всего</option>
+                                <option>С 9 человек</option>
+                                <option>С 8 человек</option>
+                                <option>С 7 человек</option>
+                                <option>С 6 человек</option>
+                            </Input>
+                            <p>
+                                <Label id="lblFoodSum"><h2>{this.state.sum.toFixed(2)} ₽</h2></Label>
 
-                        </p>
+                            </p>
                         </div>
-                    }
+                }
             </div>
         );
     }

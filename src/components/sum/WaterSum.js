@@ -24,6 +24,7 @@ export default class WatherSum extends Component {
             this.setState({
                 sum: sum
             })
+            
         })
     }
     render() {

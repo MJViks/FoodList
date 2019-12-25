@@ -38,8 +38,23 @@ export default class Edit extends Component {
                                 false,
                                 this.state.count,
                                 this.state.price,
-                                (++Object.keys(val).length)
-                            ).then(() => this.props.updateCallback()))
+                                (Math.max.apply(null, Object.keys(val)) + 1)
+                            )
+                                .then(() => this.props.updateCallback()))
+                            .catch(() => {
+                                firebase.writeFoodDb(
+                                    this.state.name,
+                                    false,
+                                    this.state.count,
+                                    this.state.price,
+                                    1,
+                                )
+                                    .then(() => this.props.updateCallback())
+                            }).then(() => this.setState({
+                                name: '',
+                                count: '',
+                                price: '',
+                            }))
                         break;
                     case 'Вода':
                         firebase.readWatherDb().then((val) =>
@@ -48,8 +63,20 @@ export default class Edit extends Component {
                                 false,
                                 this.state.count,
                                 this.state.price,
-                                ++Object.keys(val).length,
-                            ).then(() => this.props.updateCallback()))
+                                (Math.max.apply(null, Object.keys(val)) + 1),
+                            ).then(() => this.props.updateCallback())).catch(() => {
+                                firebase.writeWatherDb(
+                                    this.state.name,
+                                    false,
+                                    this.state.count,
+                                    this.state.price,
+                                    1,
+                                ).then(() => this.props.updateCallback())
+                            }).then(() => this.setState({
+                                name: '',
+                                count: '',
+                                price: '',
+                            }))
                         break;
                     default:
                         alert('Ошибка №1 \r\n Обратитесь к администратору')
@@ -65,9 +92,9 @@ export default class Edit extends Component {
             <div className="Edit col-md-9 col-xl-3 order-xl-4 left">
                 <div className="panel">
                     <Label >Добавить</Label>
-                    <Input placeholder="Название" id="Name" onChange={e => this.setState({ name: e.target.value })} />
-                    <Input placeholder="₽" type="number" id="Price" onChange={e => this.setState({ price: e.target.value })} />
-                    <Input placeholder="Кол-во" type="number" id="Count" onChange={e => this.setState({ count: e.target.value })} />
+                    <Input placeholder="Название" id="Name" value={this.state.name} onChange={e => this.setState({ name: e.target.value })} />
+                    <Input placeholder="₽" type="number" id="Price" value={this.state.price} onChange={e => this.setState({ price: e.target.value })} />
+                    <Input placeholder="Кол-во" type="number" id="Count" value={this.state.count} onChange={e => this.setState({ count: e.target.value })} />
                     <Input type="select" id="Type" onChange={e => this.setState({ select: e.target.value })}>
                         <option>Еда</option>
                         <option>Вода</option>
