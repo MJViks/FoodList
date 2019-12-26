@@ -4,7 +4,7 @@
 
 Food List is a New Year's shopping list web application. It allows you to calculate the exact price of purchases and how much money from each party-goer
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+The developer is a student and so far is only training to become the best magician in the future!
 
 ## How to use
 
